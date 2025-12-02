@@ -11,7 +11,7 @@ TOOLCHAIN_FILE := ${ROOT_DIR}/scripts/arm-toolchain.cmake
 FRAMEWORK_NAME := UVC_Camera
 THREAD_NUM := 14
 CURRENT_USER := $(USER)
-SYSROOT_PATH := /home/${CURRENT_USER}/chroot/ubuntu22-arm
+SYSROOT_PATH :=
 
 .PHONY: all release debug clean build
 
@@ -72,7 +72,7 @@ sqlite:
 		--prefix=${INSTALL_DIR} \
 		--disable-tcl \
 		--includedir=${INSTALL_DIR}/include/$@ && \
-	make -j${THREAD_NUM} && sudo make install && cd -
+	make -j${THREAD_NUM} && make install && cd -
 
 json:
 	cp -r ${THIRD_PARTY_DIR}/$@/single_include/ ${INSTALL_DIR}/include/$@
@@ -95,7 +95,7 @@ yaml-cpp:
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
 		-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
 		$(THIRD_PARTY_DIR)/$@ && \
-	make -j$(nproc) && sudo make install && cd -
+	make -j$(nproc) && make install && cd -
 	touch ${BUILD_DIR}/$@/.build_ok
 
 mpp:
@@ -108,7 +108,7 @@ mpp:
 		-DBUILD_SHARED_LIBS=ON \
 		-DBUILD_TEST=OFF \
 		$(THIRD_PARTY_DIR)/$@ && \
-	make -j$(nproc) && sudo make install && cd -
+	make -j$(nproc) && make install && cd -
 
 jpeg_turbo:
 	@[ -e ${BUILD_DIR}/$@/.build_ok ] && echo "$@ compilation completed..." || mkdir -p ${BUILD_DIR}/$@
@@ -122,7 +122,7 @@ jpeg_turbo:
 		-DENABLE_STATIC=OFF \
 		-DENABLE_TURBOJPEG=ON \
 		$(THIRD_PARTY_DIR)/$@ && \
-	make -j$(nproc) && sudo make install && cd -
+	make -j$(nproc) && make install && cd -
 
 librga:
 	@mkdir -p ${INSTALL_DIR}/include/rga
@@ -156,7 +156,6 @@ ffmpeg:
 		--cross-prefix=aarch64-linux-gnu- \
 		--arch=aarch64 \
 		--target-os=linux \
-		--sysroot=${SYSROOT_PATH} \
 		--enable-gpl \
 		--enable-version3 \
 		--enable-nonfree \
@@ -173,7 +172,7 @@ ffmpeg:
 		--extra-cflags="-I${INSTALL_DIR}/include" \
 		--extra-ldflags="-L${INSTALL_DIR}/lib" \
 	&& \
-	make -j${THREAD_NUM} && sudo make install && cd -
+	make -j${THREAD_NUM} && make install && cd -
 
 mediamtx:
 	cp ${THIRD_PARTY_DIR}/$@/mediamtx ${INSTALL_DIR}/bin/

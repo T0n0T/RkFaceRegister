@@ -8,7 +8,7 @@ import threading
 from flask import Flask , Response, request, render_template, jsonify
 from flask_socketio import SocketIO, emit
 
-RTSP_URL = 'rtsp://127.0.0.1:8554/live'
+RTSP_URL = 'rtsp://192.168.1.68:8554/live'
 
 logging.basicConfig(
     level=logging.DEBUG,

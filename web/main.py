@@ -11,7 +11,7 @@ class FlaskApp:
         self.app.config.from_object(Config)  
         self.socketio = SocketIO(self.app, async_mode='eventlet')
         self.images_sqlite = ImgSQLite()
-        self.server_socket = Socket()
+        self.server_socket = Socket('192.168.1.68')
         self.client_connect = ClientConnect(self.app, self.socketio, self.server_socket, self.images_sqlite)
         self._register_routes()
     

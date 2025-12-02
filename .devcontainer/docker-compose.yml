@@ -1,0 +1,15 @@
+version: '3'
+services:
+    devcontainer:
+        image: rknn-dev:latest
+        network_mode: host
+        privileged: true
+        environment:
+            - GCC_COMPILER=/workspaces/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
+        volumes:
+            - /home/Tiger/.qwen:/root/.qwen
+            - ../../.vscode-server:/root/.vscode-server
+            - ..:/workspaces:cached
+        working_dir: /workspaces
+        command: sleep infinity
+            
